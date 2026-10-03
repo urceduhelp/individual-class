@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Individual class</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#e9eff2;--ink:#14283a;--mut:#5b6b78;--card:#fff;--line:#cfdae1;--acc:#0f6b7a;--warn:#b4531a}
+@media(prefers-color-scheme:dark){:root{--bg:#0f1c26;--ink:#e6eef3;--mut:#93a5b3;--card:#17293616;--line:#2a3f4e;--acc:#4cc2d3;--warn:#f0a070}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans Sinhala",system-ui,sans-serif;line-height:1.7}
+main{max-width:760px;margin:0 auto;padding:24px 16px 48px}
+h1{font-size:1.5rem;margin:0 0 4px}h2{font-size:1.1rem;margin:0 0 8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;margin-top:14px}
+input,button{font:inherit;padding:10px 12px;border-radius:8px;border:1px solid var(--line);width:100%;margin-top:8px;background:transparent;color:inherit}
+button{background:var(--acc);color:#fff;border:0;cursor:pointer;font-weight:600}
+button:focus-visible,input:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.err{color:var(--warn);min-height:1.5em;margin:8px 0 0}
+.status{display:flex;align-items:center;gap:18px}
+.pct{font-size:3rem;font-weight:700;color:var(--acc);line-height:1}
+.bar{height:10px;background:var(--line);border-radius:6px;overflow:hidden;margin-top:8px}.bar i{display:block;height:100%;background:var(--acc)}
+table{width:100%;border-collapse:collapse}td,th{padding:6px 4px;border-bottom:1px solid var(--line);text-align:left}td:last-child,th:last-child{text-align:right}
+ul{margin:0;padding-left:20px}.mut{color:var(--mut)}
+.fees{display:grid;grid-template-columns:1fr 1fr;gap:12px}.fees b{font-size:1.4rem;display:block}
+.due b{color:var(--warn)}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px}.top button{width:auto;margin:0;padding:6px 14px}
+#rep{display:none}
+</style>
+</head>
+<body>
+<main>
+<section id="login" class="card">
+  <h1>Individual class</h1>
+  <p class="mut">ඔබේ නම සහ මුරපදය ඇතුළත් කර පිවිසෙන්න.</p>
+  <form id="f">
+    <input id="n" placeholder="නම" autocomplete="username" required>
+    <input id="p" type="password" placeholder="මුරපදය" autocomplete="current-password" required>
+    <p class="err" id="e" role="alert"></p>
+    <button>පිවිසෙන්න</button>
+  </form>
+</section>
+<section id="rep"></section>
+</main>
+<script>
+const SUPABASE_URL="https://jcijglwpkfluyzrltimk.supabase.co/", SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpjaWpnbHdwa2ZsdXl6cmx0aW1rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY4MzU3OTUsImV4cCI6MjA4MjQxMTc5NX0.dvT8OiyVEiYn_DhkMakmSq1Vvr4REDr0kYPnyqCtWHs";
+const KINDS=[["written","ලිඛිත පරීක්ෂණ ලකුණු"],["mcq","MCQ ලකුණු"],["map","සිතියම් ලකුණු"]];
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const money=n=>"Rs. "+Number(n||0).toLocaleString("en-LK",{minimumFractionDigits:2,maximumFractionDigits:2});
+const lines=t=>(t||"").split("\n").map(x=>x.trim()).filter(Boolean);
+const sum=(a,k)=>a.reduce((t,x)=>t+Number(x[k]),0);
+
+async function rpc(fn,body){
+  const r=await fetch(`${SUPABASE_URL}/rest/v1/rpc/${fn}`,{method:"POST",
+    headers:{apikey:SUPABASE_KEY,Authorization:"Bearer "+SUPABASE_KEY,"Content-Type":"application/json"},body:JSON.stringify(body)});
+  if(!r.ok) throw new Error("සම්බන්ධ විය නොහැක");
+  return r.json();
+}
+$("f").onsubmit=async e=>{
+  e.preventDefault();$("e").textContent="";
+  try{
+    const d=await rpc("student_report",{p_name:$("n").value,p_password:$("p").value});
+    if(!d){$("e").textContent="නම හෝ මුරපදය වැරදියි.";return;}
+    render(d);
+  }catch(x){$("e").textContent=x.message}
+};
+function list(t,empty){const a=lines(t);return a.length?"<ul>"+a.map(x=>`<li>${esc(x)}</li>`).join("")+"</ul>":`<p class="mut">${empty}</p>`}
+function render(d){
+  const all=d.scores, tot=sum(all,"max"), pct=tot?Math.round(sum(all,"marks")/tot*1000)/10:0;
+  const blocks=KINDS.map(([k,label])=>{
+    const s=all.filter(x=>x.kind===k);
+    return `<div class="card"><h2>${label}</h2>`+(s.length?
+      `<table>${s.map(x=>`<tr><td>${esc(x.title)}</td><td>${x.marks} / ${x.max}</td></tr>`).join("")}
+      <tr><th>එකතුව</th><th>${sum(s,"marks")} / ${sum(s,"max")}</th></tr></table>`:`<p class="mut">තවම ලකුණු නැත.</p>`)+`</div>`}).join("");
+  $("login").style.display="none";$("rep").style.display="block";
+  $("rep").innerHTML=`
+  <div class="top"><div><h1>${esc(d.name)}</h1><span class="mut">${esc(d.class_name)}</span></div><button onclick="location.reload()">ඉවත් වන්න</button></div>
+  <div class="card"><h2>දැනට සිටින තත්ත්වය</h2>
+    <div class="status"><div class="pct">${pct}%</div>
+    <div class="mut">ලිඛිත + MCQ + සිතියම් පරීක්ෂණ සියල්ලේ සම්පූර්ණ ලකුණු ${sum(all,"marks")} / ${tot}</div></div>
+    <div class="bar"><i style="width:${Math.min(pct,100)}%"></i></div></div>
+  <div class="card"><h2>දැනට නිම කළ කොටස්</h2>${list(d.completed,"තවම නිම කළ කොටස් නැත.")}</div>
+  <div class="card"><h2>ඉදිරි මාතෘකා</h2>${list(d.upcoming,"ඉදිරි මාතෘකා තවම ඇතුළත් කර නැත.")}</div>
+  ${blocks}
+  <div class="card fees"><div><span class="mut">පැයක් සඳහා අය කිරීම</span><b>${money(d.hourly_fee)}</b></div>
+    <div class="due"><span class="mut">දැනට ගෙවීමට ඇති හිඟ මුදල</span><b>${money(d.balance_due)}</b></div></div>`;
+}
+</script>
+</body>
+</html>
