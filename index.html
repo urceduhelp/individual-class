@@ -6,30 +6,76 @@
 <title>Individual class</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#e9eff2;--ink:#14283a;--mut:#5b6b78;--card:#fff;--line:#cfdae1;--acc:#0f6b7a;--warn:#b4531a}
-@media(prefers-color-scheme:dark){:root{--bg:#0f1c26;--ink:#e6eef3;--mut:#93a5b3;--card:#17293616;--line:#2a3f4e;--acc:#4cc2d3;--warn:#f0a070}}
+:root{--bg:#eef3f7;--ink:#14283a;--mut:#5b6b78;--card:#fff;--soft:#f4f8fb;--line:#d9e2e8;--acc:#0077b6;--acc2:#005b8a;--warn:#b4531a;--shadow:0 4px 16px #0000001f}
+@media(prefers-color-scheme:dark){:root{--bg:#0e1a24;--ink:#e6eef3;--mut:#93a5b3;--card:#16283a;--soft:#1b3145;--line:#2a3f4e;--acc:#4cb8e6;--acc2:#7fd0f2;--warn:#f0a070;--shadow:0 4px 16px #0006}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans Sinhala",system-ui,sans-serif;line-height:1.7}
-main{max-width:760px;margin:0 auto;padding:24px 16px 48px}
-h1{font-size:1.5rem;margin:0 0 4px}h2{font-size:1.1rem;margin:0 0 8px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;margin-top:14px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans Sinhala",system-ui,sans-serif;line-height:1.65}
+.wrap{max-width:1100px;margin:0 auto;padding:16px 14px 40px}
+h1,h2{margin:0}
+h2{font-size:1.05rem;margin-bottom:8px}
+.mut{color:var(--mut)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-top:14px}
 input,button{font:inherit;padding:10px 12px;border-radius:8px;border:1px solid var(--line);width:100%;margin-top:8px;background:transparent;color:inherit}
 button{background:var(--acc);color:#fff;border:0;cursor:pointer;font-weight:600}
 button:focus-visible,input:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
 .err{color:var(--warn);min-height:1.5em;margin:8px 0 0}
-.status{display:flex;align-items:center;gap:18px}
-.pct{font-size:3rem;font-weight:700;color:var(--acc);line-height:1}
-.bar{height:10px;background:var(--line);border-radius:6px;overflow:hidden;margin-top:8px}.bar i{display:block;height:100%;background:var(--acc)}
-table{width:100%;border-collapse:collapse}td,th{padding:6px 4px;border-bottom:1px solid var(--line);text-align:left}td:last-child,th:last-child{text-align:right}
-ul{margin:0;padding-left:20px}.mut{color:var(--mut)}
-.fees{display:grid;grid-template-columns:1fr 1fr;gap:12px}.fees b{font-size:1.4rem;display:block}
-.due b{color:var(--warn)}
-.top{display:flex;justify-content:space-between;align-items:center;gap:8px}.top button{width:auto;margin:0;padding:6px 14px}
+#login{max-width:420px;margin:8vh auto 0}
+#login h1{font-size:1.5rem}
 #rep{display:none}
+.top{display:flex;justify-content:flex-end}
+.top button{width:auto;margin:0;padding:6px 16px;background:transparent;color:var(--acc);border:1px solid var(--acc)}
+
+/* ---- Student report card ---- */
+.report{display:flex;flex-direction:column;background:var(--card);border-radius:14px;box-shadow:var(--shadow);overflow:hidden;margin-top:10px}
+@media(min-width:800px){.report{flex-direction:row}}
+.left,.right{flex:1;padding:26px 22px;min-width:0}
+.right{background:var(--soft)}
+.circles{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 14px}
+.circle{position:relative;width:150px;height:150px}
+.circle svg{width:100%;height:100%;transform:rotate(-90deg)}
+.circle .bg{fill:none;stroke:var(--line);stroke-width:10}
+.circle .val{fill:none;stroke-width:10;stroke-linecap:round;stroke-dasharray:251.2;stroke-dashoffset:251.2;transition:stroke-dashoffset .9s ease}
+.circle .in{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.circle .t{font-size:.95rem;font-weight:700;letter-spacing:.5px}
+.circle .s{font-size:2.3rem;font-weight:700;line-height:1.1}
+.circle .m{font-size:.8rem;color:var(--mut)}
+.caption{text-align:center;font-size:1.15rem;font-weight:600;margin:14px 0 2px}
+.sub{text-align:center;font-size:.85rem;color:var(--mut)}
+.curr{text-align:center;font-size:1.4rem;font-weight:600;margin:22px 0 10px}
+.status{display:flex;align-items:center;gap:16px;justify-content:center}
+.sbarw{flex:1;max-width:330px}
+.sbar{position:relative;height:26px;border-radius:6px;background:linear-gradient(to right,#ff0000 0 20%,#9c27b0 20% 40%,#2196f3 40% 60%,#4caf50 60% 80%,#8bc34a 80% 100%)}
+.sbar i{position:absolute;top:-7px;width:0;height:0;margin-left:-7px;border:7px solid transparent;border-top:9px solid var(--ink);display:none}
+.legend{display:grid;grid-template-columns:repeat(5,1fr);text-align:center;font-weight:700;margin-top:4px}
+.letter{flex:none;width:84px;height:84px;border-radius:50%;background:#999;color:#fff;display:flex;align-items:center;justify-content:center;font-size:2.8rem;font-weight:700;box-shadow:0 4px 10px #0003}
+.pctline{text-align:center;margin-top:10px;font-size:.9rem;color:var(--mut)}
+
+.name{font-size:1.8rem;font-weight:700;color:var(--acc);text-align:center;border-bottom:2px solid var(--line);padding-bottom:12px;margin-bottom:12px;word-break:break-word}
+.info{text-align:center;font-size:1.05rem;margin:2px 0}
+.sdate{text-align:center;font-size:1.15rem;font-weight:700;margin:18px 0}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:480px){.stats{grid-template-columns:1fr}}
+.stat{background:var(--card);border-radius:10px;box-shadow:0 2px 8px #0000001a;padding:16px 8px;text-align:center}
+.stat b{display:block;font-size:2.4rem;line-height:1;color:var(--acc)}
+.stat .tot{font-size:1.1rem;color:var(--mut);margin-top:4px}
+.stat .lb{font-weight:700;margin-top:8px}
+.contact{margin-top:22px;text-align:center;font-size:.95rem;line-height:1.6;padding:12px;border-radius:8px;background:var(--card)}
+
+/* ---- Lists, tables, fees (Individual class) ---- */
+ul{margin:0;padding-left:20px}
+table{width:100%;border-collapse:collapse}
+td,th{padding:6px 4px;border-bottom:1px solid var(--line);text-align:left}
+td:last-child,th:last-child{text-align:right;white-space:nowrap}
+td small{color:var(--mut)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+@media(max-width:700px){.cols{grid-template-columns:1fr}}
+.fees{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fees b{font-size:1.4rem;display:block}
+.due b{color:var(--warn)}
 </style>
 </head>
 <body>
-<main>
+<div class="wrap">
 <section id="login" class="card">
   <h1>Individual class</h1>
   <p class="mut">ඔබේ නම සහ මුරපදය ඇතුළත් කර පිවිසෙන්න.</p>
@@ -41,50 +87,101 @@ ul{margin:0;padding-left:20px}.mut{color:var(--mut)}
   </form>
 </section>
 <section id="rep"></section>
-</main>
+</div>
 <script>
 const SUPABASE_URL="https://jcijglwpkfluyzrltimk.supabase.co/", SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpjaWpnbHdwa2ZsdXl6cmx0aW1rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY4MzU3OTUsImV4cCI6MjA4MjQxMTc5NX0.dvT8OiyVEiYn_DhkMakmSq1Vvr4REDr0kYPnyqCtWHs";
-const KINDS=[["written","ලිඛිත පරීක්ෂණ ලකුණු"],["mcq","MCQ ලකුණු"],["map","සිතියම් ලකුණු"]];
+</script>
+<script>
+const KINDS=[["written","ESSAY","ලිඛිත පරීක්ෂණ ලකුණු","#03a9f4"],["mcq","MCQ","MCQ ලකුණු","#e91e63"],["map","MAP","සිතියම් ලකුණු","#9c27b0"]];
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const money=n=>"Rs. "+Number(n||0).toLocaleString("en-LK",{minimumFractionDigits:2,maximumFractionDigits:2});
+const fmt=n=>{n=Number(n)||0;return Number.isInteger(n)?String(n):String(Math.round(n*10)/10)};
 const lines=t=>(t||"").split("\n").map(x=>x.trim()).filter(Boolean);
-const sum=(a,k)=>a.reduce((t,x)=>t+Number(x[k]),0);
+const sum=(a,k)=>a.reduce((t,x)=>t+Number(x[k]||0),0);
+const dOf=x=>x.test_date||(x.created_at||"").slice(0,10)||"";
+const nice=d=>d?new Date(d+"T00:00:00").toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"}):"";
 
 async function rpc(fn,body){
-  const r=await fetch(`${SUPABASE_URL}/rest/v1/rpc/${fn}`,{method:"POST",
+  const r=await fetch(`${SUPABASE_URL}rest/v1/rpc/${fn}`,{method:"POST",
     headers:{apikey:SUPABASE_KEY,Authorization:"Bearer "+SUPABASE_KEY,"Content-Type":"application/json"},body:JSON.stringify(body)});
-  if(!r.ok) throw new Error("සම්බන්ධ විය නොහැක");
+  if(!r.ok) throw Object.assign(new Error("සම්බන්ධ විය නොහැක"),{status:r.status});
   return r.json();
 }
 $("f").onsubmit=async e=>{
   e.preventDefault();$("e").textContent="";
+  const b={p_name:$("n").value.trim(),p_password:$("p").value};
   try{
-    const d=await rpc("student_report",{p_name:$("n").value,p_password:$("p").value});
+    let d;
+    try{d=await rpc("student_report2",b);}
+    catch(x){if(x.status===404)d=await rpc("student_report",b);else throw x;}/* SQL තවම run කර නැතිනම් පැරණි function එක */
     if(!d){$("e").textContent="නම හෝ මුරපදය වැරදියි.";return;}
     render(d);
   }catch(x){$("e").textContent=x.message}
 };
+function logout(){/* පිටුව නැවත load නොකර පිවිසුමට යයි */
+  $("rep").style.display="none";$("rep").innerHTML="";$("p").value="";$("e").textContent="";$("login").style.display="";$("p").focus();}
 function list(t,empty){const a=lines(t);return a.length?"<ul>"+a.map(x=>`<li>${esc(x)}</li>`).join("")+"</ul>":`<p class="mut">${empty}</p>`}
+
+/* පරීක්ෂණ දින අනුව පිළිවෙළ කිරීම (දිනය නැතිනම් ඇතුළත් කළ පිළිවෙළ) */
+function ordered(a){return a.map((x,i)=>[x,i]).sort((p,q)=>dOf(p[0]).localeCompare(dOf(q[0]))||(p[0].test_no||0)-(q[0].test_no||0)||p[1]-q[1]).map(p=>p[0]);}
+function grade(p){return p>=80?["A","#8bc34a"]:p>=60?["B","#4caf50"]:p>=40?["C","#2196f3"]:p>=20?["S","#9c27b0"]:["W","#ff0000"];}
+
 function render(d){
-  const all=d.scores, tot=sum(all,"max"), pct=tot?Math.round(sum(all,"marks")/tot*1000)/10:0;
-  const blocks=KINDS.map(([k,label])=>{
-    const s=all.filter(x=>x.kind===k);
-    return `<div class="card"><h2>${label}</h2>`+(s.length?
-      `<table>${s.map(x=>`<tr><td>${esc(x.title)}</td><td>${x.marks} / ${x.max}</td></tr>`).join("")}
-      <tr><th>එකතුව</th><th>${sum(s,"marks")} / ${sum(s,"max")}</th></tr></table>`:`<p class="mut">තවම ලකුණු නැත.</p>`)+`</div>`}).join("");
+  const all=ordered(d.scores||[]),lastOf=k=>[...all].reverse().find(x=>x.kind===k);
+  const tot=sum(all,"max"),got=sum(all,"marks"),pct=tot?got/tot*100:null,g=pct==null?["–","#999"]:grade(pct);
+  const lasts=KINDS.map(k=>lastOf(k[0])).filter(Boolean),ld=lasts.map(dOf).filter(Boolean).sort().pop();
+  const titles=[...new Set(lasts.map(x=>x.title).filter(Boolean))];
+  const latest=all.length?dOf(all[all.length-1]):"";
+
+  const circles=KINDS.map(([k,lab,,col])=>{const l=lastOf(k),p=l&&Number(l.max)?Math.min(100,l.marks/l.max*100):0;
+    return `<div class="circle"><svg viewBox="0 0 100 100"><circle class="bg" cx="50" cy="50" r="40"></circle>
+      <circle class="val" cx="50" cy="50" r="40" stroke="${col}" data-off="${251.2*(1-p/100)}"></circle></svg>
+      <div class="in"><div class="t">${lab}</div><div class="s">${l?fmt(l.marks):"–"}</div><div class="m">${l?"/ "+fmt(l.max):""}</div></div></div>`}).join("");
+
+  const stats=KINDS.map(([k,lab])=>{const s=all.filter(x=>x.kind===k);
+    return `<div class="stat"><b>${fmt(sum(s,"marks"))}</b><div class="tot">${fmt(sum(s,"max"))}</div><div class="lb">${lab}</div></div>`}).join("");
+
+  const hist=KINDS.map(([k,,label])=>{const s=all.filter(x=>x.kind===k);
+    return `<div><h2>${label}</h2>`+(s.length?
+      `<table>${s.map(x=>`<tr><td>${esc(x.title||("පරීක්ෂණය "+(x.test_no||"")))} ${dOf(x)?`<small>${dOf(x)}</small>`:""}</td><td>${fmt(x.marks)} / ${fmt(x.max)}</td></tr>`).join("")}
+      <tr><th>එකතුව</th><th>${fmt(sum(s,"marks"))} / ${fmt(sum(s,"max"))}</th></tr></table>`:`<p class="mut">තවම ලකුණු නැත.</p>`)+`</div>`}).join("");
+
   $("login").style.display="none";$("rep").style.display="block";
   $("rep").innerHTML=`
-  <div class="top"><div><h1>${esc(d.name)}</h1><span class="mut">${esc(d.class_name)}</span></div><button onclick="location.reload()">ඉවත් වන්න</button></div>
-  <div class="card"><h2>දැනට සිටින තත්ත්වය</h2>
-    <div class="status"><div class="pct">${pct}%</div>
-    <div class="mut">ලිඛිත + MCQ + සිතියම් පරීක්ෂණ සියල්ලේ සම්පූර්ණ ලකුණු ${sum(all,"marks")} / ${tot}</div></div>
-    <div class="bar"><i style="width:${Math.min(pct,100)}%"></i></div></div>
-  <div class="card"><h2>දැනට නිම කළ කොටස්</h2>${list(d.completed,"තවම නිම කළ කොටස් නැත.")}</div>
-  <div class="card"><h2>ඉදිරි මාතෘකා</h2>${list(d.upcoming,"ඉදිරි මාතෘකා තවම ඇතුළත් කර නැත.")}</div>
-  ${blocks}
+  <div class="top"><button onclick="logout()">ඉවත් වන්න</button></div>
+  <div class="report">
+    <div class="left">
+      <div class="circles">${circles}</div>
+      <div class="caption">Results of the last test conducted</div>
+      <div class="sub">${[titles.length==1?esc(titles[0]):"",nice(ld)].filter(Boolean).join(" · ")}</div>
+      <div class="curr">Current status</div>
+      <div class="status">
+        <div class="sbarw"><div class="sbar"><i style="${pct==null?"":`display:block;left:${Math.min(100,Math.max(0,pct))}%`}"></i></div>
+          <div class="legend"><span style="color:#ff0000">W</span><span style="color:#9c27b0">S</span><span style="color:#2196f3">C</span><span style="color:#4caf50">B</span><span style="color:#8bc34a">A</span></div></div>
+        <div class="letter" style="background:${g[1]}">${g[0]}</div>
+      </div>
+      <div class="pctline">${pct==null?"තවම ලකුණු නැත":`සියලු පරීක්ෂණවල සම්පූර්ණ ලකුණු ${fmt(got)} / ${fmt(tot)} (${Math.round(pct*10)/10}%)`}</div>
+    </div>
+    <div class="right">
+      <h1 class="name">${esc(d.name)}</h1>
+      <p class="info">${esc(d.class_name)}</p>
+      ${d.exam_year?`<p class="info">${esc(d.exam_year)}</p>`:""}
+      ${d.exam_type?`<p class="info">${esc(d.exam_type)}</p>`:""}
+      ${d.school?`<p class="info">${esc(d.school)}</p>`:""}
+      <div class="sdate">Status as of ${nice(latest||new Date().toISOString().slice(0,10))}</div>
+      <div class="stats">${stats}</div>
+      <div class="contact">Amila Udawattha - 0701551279 / 0716637804<br>www.eduhelp.lk</div>
+    </div>
+  </div>
+  <div class="cols">
+    <div class="card"><h2>දැනට නිම කළ කොටස්</h2>${list(d.completed,"තවම නිම කළ කොටස් නැත.")}</div>
+    <div class="card"><h2>ඉදිරි මාතෘකා</h2>${list(d.upcoming,"ඉදිරි මාතෘකා තවම ඇතුළත් කර නැත.")}</div>
+  </div>
+  <div class="card"><h2 style="margin-bottom:10px">සියලු පරීක්ෂණ ලකුණු</h2><div class="cols">${hist}</div></div>
   <div class="card fees"><div><span class="mut">පැයක් සඳහා අය කිරීම</span><b>${money(d.hourly_fee)}</b></div>
     <div class="due"><span class="mut">දැනට ගෙවීමට ඇති මුදල</span><b>${money(d.balance_due)}</b></div></div>`;
+  requestAnimationFrame(()=>requestAnimationFrame(()=>document.querySelectorAll(".circle .val").forEach(c=>c.style.strokeDashoffset=c.dataset.off)));
 }
 </script>
 </body>
